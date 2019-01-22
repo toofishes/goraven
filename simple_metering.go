@@ -153,7 +153,6 @@ type LastPeriodUsage struct {
 	XMLName             xml.Name `xml:"LastPeriodUsage"`
 	DeviceMacId         string   `xml:"DeviceMacId"`
 	MeterMacId          string   `xml:"MeterMacId"`
-	TimeStamp           string   `xml:"TimeStamp"`
 	LastUsage           string   `xml:"LastUsage"`
 	Multiplier          string   `xml:"Multiplier"`
 	Divisor             string   `xml:"Divisor"`
@@ -162,4 +161,16 @@ type LastPeriodUsage struct {
 	SuppressLeadingZero string   `xml:"SuppressLeadingZero"`
 	StartDate           string   `xml:"StartDate"`
 	EndDate             string   `xml:"EndDate"`
+}
+
+// Notify: ProfileData
+type ProfileData struct {
+	XMLName                  xml.Name `xml:"ProfileData"`
+	DeviceMacId              string   `xml:"DeviceMacId"`
+	MeterMacId               string   `xml:"MeterMacId"`
+	EndTime                  string   `xml:"EndTime"`
+	Status                   string   `xml:"Status"`
+	ProfileIntervalPeriod    string   `xml:"ProfileIntervalPeriod"`
+	NumberOfPeriodsDelivered string   `xml:"NumberOfPeriodsDelivered"`
+	IntervalData             []string `xml:"IntervalData"`
 }
