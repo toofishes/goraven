@@ -19,8 +19,7 @@ const (
 )
 
 type Raven struct {
-	p      *serial.Port
-	reader *bufio.Reader
+	port *serial.Port
 }
 
 // The structure for a simple command with a single argument (Name)
@@ -34,21 +33,23 @@ type smplCommand struct {
 // Connect opens a connection to a RAVEn, given the port name (/dev/ttyUSB0)
 func Connect(dev string) (*Raven, error) {
 	c := &serial.Config{Name: dev, Baud: 115200}
-	p, err := serial.OpenPort(c)
+	port, err := serial.OpenPort(c)
 	if err != nil {
 		return nil, err
 	}
-	r := bufio.NewReader(p)
-	err = initReader(r)
+	reader := bufio.NewReader(port)
+	r := &Raven{port}
+	r.Initialize()
+	err = initReader(reader)
 	if err != nil {
 		return nil, err
 	}
-	return &Raven{p, r}, nil
+	return r, nil
 }
 
 // Close closes the RAVEn's port safely
 func (r *Raven) Close() error {
-	return r.p.Close()
+	return r.port.Close()
 }
 
 // simpleCommand sends a simple command
@@ -62,7 +63,7 @@ func (r *Raven) simpleCommand(command string, refresh bool) error {
 
 // sendCommand sends a generic command
 func (r *Raven) sendCommand(v interface{}) error {
-	enc := xml.NewEncoder(r.p)
+	enc := xml.NewEncoder(r.port)
 	if err := enc.Encode(v); err != nil {
 		return err
 	}
@@ -98,7 +99,7 @@ func nextStart(dec *xml.Decoder) (xml.StartElement, error) {
 
 // Receive grabs the next "Notify" message in the stream
 func (r *Raven) Receive() (notify interface{}, err error) {
-	dec := xml.NewDecoder(r.p)
+	dec := xml.NewDecoder(r.port)
 
 	se, err := nextStart(dec)
 	if err != nil {
