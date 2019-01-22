@@ -72,7 +72,7 @@ func (r *Raven) sendCommand(v interface{}) error {
 // initReader reads and discards the first message
 func initReader(r *bufio.Reader) error {
 	for {
-		line, err := r.ReadBytes(10)
+		line, err := r.ReadBytes('\n')
 		if err != nil {
 			return err
 		}
@@ -139,10 +139,10 @@ func (r *Raven) Receive() (notify interface{}, err error) {
 
 // Begins with '  <'
 func isMidElement(line []byte) bool {
-	return bytes.HasPrefix(line, []byte{32, 32, 60})
+	return bytes.HasPrefix(line, []byte{' ', ' ', '<'})
 }
 
 // Begins with '</'
 func isEndElement(line []byte) bool {
-	return bytes.HasPrefix(line, []byte{60, 47})
+	return bytes.HasPrefix(line, []byte{'<', '/'})
 }
