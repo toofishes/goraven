@@ -137,11 +137,6 @@ func (r *Raven) Receive() (notify interface{}, err error) {
 	return notify, err
 }
 
-// Begins with '  <'
-func isMidElement(line []byte) bool {
-	return bytes.HasPrefix(line, []byte{' ', ' ', '<'})
-}
-
 // Begins with '</'
 func isEndElement(line []byte) bool {
 	return bytes.HasPrefix(line, []byte{'<', '/'})
