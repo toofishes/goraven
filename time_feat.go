@@ -30,6 +30,7 @@ func getTime(hex string) (time.Time, error) {
 		return time.Unix(0, 0), err
 	}
 
+	// January 1, 2000 Midnight UTC
 	return time.Unix(sec+946684800, 0), nil
 }
 
