@@ -6,8 +6,7 @@ import (
 	"bytes"
 	"encoding/xml"
 	"errors"
-	"github.com/schleibinger/sio"
-	"syscall"
+	"github.com/tarm/serial"
 )
 
 // Types of events
@@ -20,7 +19,7 @@ const (
 )
 
 type Raven struct {
-	p      *sio.Port
+	p      *serial.Port
 	reader *bufio.Reader
 }
 
@@ -34,7 +33,8 @@ type smplCommand struct {
 
 // Connect opens a connection to a RAVEn, given the port name (/dev/ttyUSB0)
 func Connect(dev string) (*Raven, error) {
-	p, err := sio.Open(dev, syscall.B115200)
+	c := &serial.Config{Name: dev, Baud: 115200}
+	p, err := serial.OpenPort(c)
 	if err != nil {
 		return nil, err
 	}
