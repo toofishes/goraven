@@ -80,7 +80,6 @@ func initReader(r *bufio.Reader) error {
 			return nil
 		}
 	}
-	panic("unreachable")
 }
 
 func nextStart(dec *xml.Decoder) (xml.StartElement, error) {
