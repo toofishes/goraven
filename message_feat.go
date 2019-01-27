@@ -12,12 +12,12 @@ func (r *Raven) GetMessage(refresh bool) error {
 
 // Notify: MessageCluster
 type MessageCluster struct {
-	XMLName              xml.Name `xml:"MessageCluster"`
-	DeviceMacId          string   `xml:"DeviceMacId"`
-	MeterMacId           string   `xml:"MeterMacId"`
-	TimeStamp            string   `xml:"TimeStamp"`
-	Id                   string   `xml:"Id"`
-	Text                 string   `xml:"Text"`
-	ConfirmationRequired string   `xml:"ConfirmationRequired"`
-	Queued               string   `xml:"Queued"`
+	XMLName              xml.Name  `xml:"MessageCluster"`
+	DeviceMacId          uhexint64 `xml:"DeviceMacId"`
+	MeterMacId           uhexint64 `xml:"MeterMacId"`
+	TimeStamp            timestamp `xml:"TimeStamp"`
+	Id                   uhexint32 `xml:"Id"`
+	Text                 string    `xml:"Text"`
+	ConfirmationRequired string    `xml:"ConfirmationRequired"`
+	Queued               string    `xml:"Queued"`
 }

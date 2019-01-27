@@ -6,8 +6,8 @@ import (
 
 func TestGetPrice(t *testing.T) {
 	p := &PriceCluster{
-		Price:          "0x00000008",
-		TrailingDigits: "0x02",
+		Price:          0x00000008,
+		TrailingDigits: 0x02,
 	}
 
 	price, err := p.GetPrice()
@@ -18,7 +18,7 @@ func TestGetPrice(t *testing.T) {
 		t.Fatalf("Expected 10.00, got '%f'", price)
 	}
 
-	p.Price = "0x000003e8"
+	p.Price = 0x000003e8
 	price, err = p.GetPrice()
 	if err != nil {
 		t.Fatalf("Convert error: %s", err)

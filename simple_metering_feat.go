@@ -3,7 +3,6 @@ package goraven
 import (
 	"encoding/xml"
 	"math"
-	"strconv"
 )
 
 // Get the demand information from the RAVEn. If refresh is true, the device
@@ -64,105 +63,86 @@ func (c *CurrentSummationDelivered) GetSummationReceived() (float64, error) {
 	return getFloat64(c.SummationReceived, c.Multiplier, c.Divisor, c.DigitsLeft)
 }
 
-func getFloat64(dem, mult, div, digitsLeft string) (float64, error) {
-	rawDemand, err := strconv.ParseInt(dem, 0, 0)
-	if err != nil {
-		return 0.0, err
-	}
-
-	digits, err := strconv.ParseInt(digitsLeft, 0, 0)
-	if err != nil {
-		return 0.0, err
-	}
-
-	multiplier, err := strconv.ParseInt(mult, 0, 0)
+func getFloat64(demand, multiplier, divisor uhexint32, digits uhexint8) (float64, error) {
 	if multiplier == 0 {
 		multiplier = 1
 	}
-	if err != nil {
-		return 0.0, err
-	}
-
-	divisor, err := strconv.ParseInt(div, 0, 0)
 	if divisor == 0 {
 		divisor = 1
 	}
-	if err != nil {
-		return 0.0, err
-	}
 
-	d := (rawDemand % (int64(math.Pow10(int(digits))) * divisor))
+	d := (int64(demand) % (int64(math.Pow10(int(digits))) * int64(divisor)))
 
 	return ((float64(d) * float64(multiplier)) / float64(divisor)), nil
 }
 
 // Notify: InstantaneousDemand
 type InstantaneousDemand struct {
-	XMLName             xml.Name `xml:"InstantaneousDemand"`
-	DeviceMacId         string   `xml:"DeviceMacId"`
-	MeterMacId          string   `xml:"MeterMacId"`
-	TimeStamp           string   `xml:"TimeStamp"`
-	Demand              string   `xml:"Demand"`
-	Multiplier          string   `xml:"Multiplier"`
-	Divisor             string   `xml:"Divisor"`
-	DigitsRight         string   `xml:"DigitsRight"`
-	DigitsLeft          string   `xml:"DigitsLeft"`
-	SuppressLeadingZero string   `xml:"SuppressLeadingZero"`
+	XMLName             xml.Name  `xml:"InstantaneousDemand"`
+	DeviceMacId         uhexint64 `xml:"DeviceMacId"`
+	MeterMacId          uhexint64 `xml:"MeterMacId"`
+	TimeStamp           timestamp `xml:"TimeStamp"`
+	Demand              uhexint32 `xml:"Demand"`
+	Multiplier          uhexint32 `xml:"Multiplier"`
+	Divisor             uhexint32 `xml:"Divisor"`
+	DigitsRight         uhexint8  `xml:"DigitsRight"`
+	DigitsLeft          uhexint8  `xml:"DigitsLeft"`
+	SuppressLeadingZero ynbool    `xml:"SuppressLeadingZero"`
 }
 
 // Notify: CurrentSummationDelivered
 type CurrentSummationDelivered struct {
-	XMLName             xml.Name `xml:"CurrentSummationDelivered"`
-	DeviceMacId         string   `xml:"DeviceMacId"`
-	MeterMacId          string   `xml:"MeterMacId"`
-	TimeStamp           string   `xml:"TimeStamp"`
-	SummationDelivered  string   `xml:"SummationDelivered"`
-	SummationReceived   string   `xml:"SummationReceived"`
-	Multiplier          string   `xml:"Multiplier"`
-	Divisor             string   `xml:"Divisor"`
-	DigitsRight         string   `xml:"DigitsRight"`
-	DigitsLeft          string   `xml:"DigitsLeft"`
-	SuppressLeadingZero string   `xml:"SuppressLeadingZero"`
+	XMLName             xml.Name  `xml:"CurrentSummationDelivered"`
+	DeviceMacId         uhexint64 `xml:"DeviceMacId"`
+	MeterMacId          uhexint64 `xml:"MeterMacId"`
+	TimeStamp           timestamp `xml:"TimeStamp"`
+	SummationDelivered  uhexint32 `xml:"SummationDelivered"`
+	SummationReceived   uhexint32 `xml:"SummationReceived"`
+	Multiplier          uhexint32 `xml:"Multiplier"`
+	Divisor             uhexint32 `xml:"Divisor"`
+	DigitsRight         uhexint8  `xml:"DigitsRight"`
+	DigitsLeft          uhexint8  `xml:"DigitsLeft"`
+	SuppressLeadingZero ynbool    `xml:"SuppressLeadingZero"`
 }
 
 // Notify: CurrentPeriodUsage
 type CurrentPeriodUsage struct {
-	XMLName             xml.Name `xml:"CurrentPeriodUsage"`
-	DeviceMacId         string   `xml:"DeviceMacId"`
-	MeterMacId          string   `xml:"MeterMacId"`
-	TimeStamp           string   `xml:"TimeStamp"`
-	CurrentUsage        string   `xml:"CurrentUsage"`
-	Multiplier          string   `xml:"Multiplier"`
-	Divisor             string   `xml:"Divisor"`
-	DigitsRight         string   `xml:"DigitsRight"`
-	DigitsLeft          string   `xml:"DigitsLeft"`
-	SuppressLeadingZero string   `xml:"SuppressLeadingZero"`
-	StartDate           string   `xml:"StartDate"`
+	XMLName             xml.Name  `xml:"CurrentPeriodUsage"`
+	DeviceMacId         uhexint64 `xml:"DeviceMacId"`
+	MeterMacId          uhexint64 `xml:"MeterMacId"`
+	TimeStamp           timestamp `xml:"TimeStamp"`
+	CurrentUsage        uhexint32 `xml:"CurrentUsage"`
+	Multiplier          uhexint32 `xml:"Multiplier"`
+	Divisor             uhexint32 `xml:"Divisor"`
+	DigitsRight         uhexint8  `xml:"DigitsRight"`
+	DigitsLeft          uhexint8  `xml:"DigitsLeft"`
+	SuppressLeadingZero ynbool    `xml:"SuppressLeadingZero"`
+	StartDate           timestamp `xml:"StartDate"`
 }
 
 // Notify: LastPeriodUsage
 type LastPeriodUsage struct {
-	XMLName             xml.Name `xml:"LastPeriodUsage"`
-	DeviceMacId         string   `xml:"DeviceMacId"`
-	MeterMacId          string   `xml:"MeterMacId"`
-	LastUsage           string   `xml:"LastUsage"`
-	Multiplier          string   `xml:"Multiplier"`
-	Divisor             string   `xml:"Divisor"`
-	DigitsRight         string   `xml:"DigitsRight"`
-	DigitsLeft          string   `xml:"DigitsLeft"`
-	SuppressLeadingZero string   `xml:"SuppressLeadingZero"`
-	StartDate           string   `xml:"StartDate"`
-	EndDate             string   `xml:"EndDate"`
+	XMLName             xml.Name  `xml:"LastPeriodUsage"`
+	DeviceMacId         uhexint64 `xml:"DeviceMacId"`
+	MeterMacId          uhexint64 `xml:"MeterMacId"`
+	LastUsage           uhexint32 `xml:"LastUsage"`
+	Multiplier          uhexint32 `xml:"Multiplier"`
+	Divisor             uhexint32 `xml:"Divisor"`
+	DigitsRight         uhexint8  `xml:"DigitsRight"`
+	DigitsLeft          uhexint8  `xml:"DigitsLeft"`
+	SuppressLeadingZero ynbool    `xml:"SuppressLeadingZero"`
+	StartDate           timestamp `xml:"StartDate"`
+	EndDate             timestamp `xml:"EndDate"`
 }
 
 // Notify: ProfileData
 type ProfileData struct {
-	XMLName                  xml.Name `xml:"ProfileData"`
-	DeviceMacId              string   `xml:"DeviceMacId"`
-	MeterMacId               string   `xml:"MeterMacId"`
-	EndTime                  string   `xml:"EndTime"`
-	Status                   string   `xml:"Status"`
-	ProfileIntervalPeriod    string   `xml:"ProfileIntervalPeriod"`
-	NumberOfPeriodsDelivered string   `xml:"NumberOfPeriodsDelivered"`
-	IntervalData             []string `xml:"IntervalData"`
+	XMLName                  xml.Name    `xml:"ProfileData"`
+	DeviceMacId              uhexint64   `xml:"DeviceMacId"`
+	MeterMacId               uhexint64   `xml:"MeterMacId"`
+	EndTime                  timestamp   `xml:"EndTime"`
+	Status                   uhexint8    `xml:"Status"`
+	ProfileIntervalPeriod    uint8       `xml:"ProfileIntervalPeriod"`
+	NumberOfPeriodsDelivered uhexint8    `xml:"NumberOfPeriodsDelivered"`
+	IntervalData             []uhexint32 `xml:"IntervalData"`
 }

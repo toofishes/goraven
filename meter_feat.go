@@ -38,26 +38,27 @@ type setMeterInfo struct {
 
 // Notify: MeterInfo
 type MeterInfo struct {
-	XMLName     xml.Name `xml:"MeterInfo"`
-	DeviceMacId string   `xml:"DeviceMacId"`
-	MeterMacId  string   `xml:"MeterMacId"`
-	NickName    string   `xml:"NickName"`
-	Account     string   `xml:"Account,omitempty"`
-	Auth        string   `xml:"Auth,omitempty"`
-	Host        string   `xml:"Host,omitempty"`
-	Enabled     string   `xml:"Enabled,omitempty"`
+	XMLName     xml.Name  `xml:"MeterInfo"`
+	DeviceMacId uhexint64 `xml:"DeviceMacId"`
+	MeterMacId  uhexint64 `xml:"MeterMacId"`
+	MeterType   string    `xml:"MeterType"`
+	NickName    string    `xml:"NickName"`
+	Account     string    `xml:"Account,omitempty"`
+	Auth        string    `xml:"Auth,omitempty"`
+	Host        string    `xml:"Host,omitempty"`
+	Enabled     string    `xml:"Enabled,omitempty"`
 }
 
 // Notify: NetworkInfo
 type NetworkInfo struct {
-	XMLName      xml.Name `xml:"NetworkInfo"`
-	DeviceMacId  string   `xml:"DeviceMacId"`
-	CoordMacId   string   `xml:"CoordMacId"`
-	Status       string   `xml:"Status"`
-	Description  string   `xml:"Description"`
-	StatusCode   string   `xml:"StatusCode"`
-	ExtPanId     string   `xml:"ExtPanId"`
-	Channel      string   `xml:"Channel"`
-	ShortAddr    string   `xml:"ShortAddr"`
-	LinkStrength string   `xml:"LinkStrength"`
+	XMLName      xml.Name  `xml:"NetworkInfo"`
+	DeviceMacId  uhexint64 `xml:"DeviceMacId"`
+	CoordMacId   uhexint64 `xml:"CoordMacId"`
+	Status       string    `xml:"Status"`
+	Description  string    `xml:"Description"`
+	StatusCode   uhexint8  `xml:"StatusCode"`
+	ExtPanId     uhexint64 `xml:"ExtPanId"`
+	Channel      uint8     `xml:"Channel"`
+	ShortAddr    uhexint16 `xml:"ShortAddr"`
+	LinkStrength uhexint8  `xml:"LinkStrength"`
 }

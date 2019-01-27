@@ -92,45 +92,45 @@ type scheduleCommand struct {
 
 // Notify: ConnectionStatus
 type ConnectionStatus struct {
-	XMLName      xml.Name `xml:"ConnectionStatus"`
-	DeviceMacId  string   `xml:"DeviceMacId"`
-	MeterMacId   string   `xml:"MeterMacId"`
-	Status       string   `xml:"Status"`
-	Description  string   `xml:"Description,omitempty"`
-	StatusCode   string   `xml:"StatusCode,omitempty"`
-	ExtPanId     string   `xml:"ExtPanId,omitempty"`
-	Channel      int      `xml:"Channel,omitempty"`
-	ShortAddr    string   `xml:"ShortAddr,omitempty"`
-	LinkStrength string   `xml:"LinkStrength"`
+	XMLName      xml.Name  `xml:"ConnectionStatus"`
+	DeviceMacId  uhexint64 `xml:"DeviceMacId"`
+	MeterMacId   uhexint64 `xml:"MeterMacId"`
+	Status       string    `xml:"Status"`
+	Description  string    `xml:"Description,omitempty"`
+	StatusCode   uhexint8  `xml:"StatusCode,omitempty"`
+	ExtPanId     uhexint64 `xml:"ExtPanId,omitempty"`
+	Channel      uint8     `xml:"Channel,omitempty"`
+	ShortAddr    uhexint16 `xml:"ShortAddr,omitempty"`
+	LinkStrength uhexint8  `xml:"LinkStrength"`
 }
 
 // Notify: DeviceInfo
 type DeviceInfo struct {
-	XMLName      xml.Name `xml:"DeviceInfo"`
-	DeviceMacId  string   `xml:"DeviceMacId"`
-	InstallCode  string   `xml:"InstallCode"`
-	LinkKey      string   `xml:"LinkKey"`
-	FWVersion    string   `xml:"FWVersion"`
-	HWVersion    string   `xml:"HWVersion"`
-	ImageType    string   `xml:"ImageType"`
-	Manufacturer string   `xml:"Manufacturer"`
-	ModelId      string   `xml:"ModelId"`
-	DateCode     string   `xml:"DateCode"`
+	XMLName      xml.Name  `xml:"DeviceInfo"`
+	DeviceMacId  uhexint64 `xml:"DeviceMacId"`
+	InstallCode  uhexint64 `xml:"InstallCode"`
+	LinkKey      string    `xml:"LinkKey"`
+	FWVersion    string    `xml:"FWVersion"`
+	HWVersion    string    `xml:"HWVersion"`
+	ImageType    string    `xml:"ImageType"`
+	Manufacturer string    `xml:"Manufacturer"`
+	ModelId      string    `xml:"ModelId"`
+	DateCode     string    `xml:"DateCode"`
 }
 
 // Notify: ScheduleInfo
 type ScheduleInfo struct {
-	XMLName     xml.Name `xml:"ScheduleInfo"`
-	DeviceMacId string   `xml:"DeviceMacId"`
-	MeterMacId  string   `xml:"MeterMacId,omitempty"`
-	Event       string   `xml:"Event"`
-	Frequency   string   `xml:"Frequency"`
-	Enabled     string   `xml:"Enabled"`
+	XMLName     xml.Name  `xml:"ScheduleInfo"`
+	DeviceMacId uhexint64 `xml:"DeviceMacId"`
+	MeterMacId  uhexint64 `xml:"MeterMacId,omitempty"`
+	Event       string    `xml:"Event"`
+	Frequency   uhexint32 `xml:"Frequency"`
+	Enabled     ynbool    `xml:"Enabled"`
 }
 
 // Notify: MeterList
 type MeterList struct {
-	XMLName     xml.Name `xml:"MeterList"`
-	DeviceMacId string   `xml:"DeviceMacId"`
-	MeterMacId  []string `xml:"MeterMacId,omitempty"`
+	XMLName     xml.Name    `xml:"MeterList"`
+	DeviceMacId uhexint64   `xml:"DeviceMacId"`
+	MeterMacId  []uhexint64 `xml:"MeterMacId,omitempty"`
 }
