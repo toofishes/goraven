@@ -2,6 +2,7 @@ package goraven
 
 import (
 	"encoding/xml"
+	"math"
 	"strconv"
 )
 
@@ -90,18 +91,9 @@ func getFloat64(dem, mult, div, digitsLeft string) (float64, error) {
 		return 0.0, err
 	}
 
-	d := (rawDemand % (pow10Int(digits) * divisor))
+	d := (rawDemand % (int64(math.Pow10(int(digits))) * divisor))
 
 	return ((float64(d) * float64(multiplier)) / float64(divisor)), nil
-}
-
-func pow10Int(p int64) int64 {
-	res := int64(10)
-
-	for i := int64(0); i < p-1; i++ {
-		res = res * 10
-	}
-	return res
 }
 
 // Notify: InstantaneousDemand

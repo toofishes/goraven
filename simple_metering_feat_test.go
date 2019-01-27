@@ -4,13 +4,6 @@ import (
 	"testing"
 )
 
-func TestPow10Int(t *testing.T) {
-	i := pow10Int(int64(5))
-	if i != int64(100000) {
-		t.Fatalf("Expected 100000, got '%d'\n", i)
-	}
-}
-
 func TestGetFloat64(t *testing.T) {
 	f, err := getFloat64("0x001738", "0x00000000", "0x000003e8", "0x05")
 	if err != nil {

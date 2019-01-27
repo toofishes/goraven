@@ -31,7 +31,7 @@ func (p *PriceCluster) GetPrice() (float64, error) {
 		return 0, err
 	}
 
-	divisor := math.Pow(10, float64(digits))
+	divisor := math.Pow10(int(digits))
 
 	return (float64(price) / divisor), nil
 }
